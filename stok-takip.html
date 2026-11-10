@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#126b62">
+  <title>Stok Sayım ve Kullanım Takibi</title>
+  <style>
+    :root{--ink:#173b3a;--green:#126b62;--green2:#0c8174;--mint:#e9f7f4;--line:#d7e8e3;--muted:#64807a;--paper:#fff;--bg:#f3f8f6;--amber:#fff5d8;--red:#b43c36;--shadow:0 10px 30px #163c2c0d}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}button,input,select{font:inherit}button{cursor:pointer}main{max-width:1200px;margin:auto;padding:25px 22px 56px}.top{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:20px}.brand{display:flex;align-items:center;gap:13px}.mark{width:46px;height:46px;border-radius:14px;background:var(--green);color:#fff;display:grid;place-items:center;font-size:22px;font-weight:800}.eyebrow{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--green2);font-weight:800}.top h1{font-size:clamp(23px,3vw,32px);line-height:1.15;margin:2px 0 0;letter-spacing:-.03em}.tools{display:flex;gap:8px;flex-wrap:wrap}.btn{border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink);padding:9px 12px;font-weight:700}.btn:hover{border-color:#90bdb3}.btn.primary{background:var(--green);border-color:var(--green);color:#fff}.btn.danger{color:var(--red);background:#fff8f7;border-color:#f0d2ce}.summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:18px}.metric{background:var(--paper);border:1px solid var(--line);border-radius:13px;padding:15px 17px;box-shadow:var(--shadow)}.metric span{color:var(--muted);font-size:13px}.metric strong{display:block;font-size:27px;line-height:1.2;margin-top:3px;letter-spacing:-.035em}.tabs{display:flex;gap:6px;border-bottom:1px solid var(--line);margin-bottom:16px}.tab{border:0;background:transparent;color:var(--muted);font-weight:750;padding:10px 14px;border-bottom:3px solid transparent}.tab.active{color:var(--green);border-color:var(--green)}.panel{display:none}.panel.active{display:block}.layout{display:grid;grid-template-columns:minmax(280px,.83fr) minmax(450px,1.6fr);gap:16px;align-items:start}.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow)}.card h2{font-size:17px;margin:0 0 5px}.sub{font-size:13px;color:var(--muted);margin:0 0 15px}.field{margin-bottom:12px}.field label{display:block;font-size:12px;color:var(--muted);font-weight:750;margin-bottom:5px}.field input,.field select,.search{width:100%;border:1px solid #cedfd9;border-radius:8px;background:#fff;padding:10px 11px;color:var(--ink);outline:none}.field input:focus,.field select:focus,.search:focus{border-color:var(--green2);box-shadow:0 0 0 3px #1488791a}.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.form-actions{display:flex;align-items:center;gap:10px;margin-top:15px}.hint{font-size:12px;color:var(--muted)}.searchbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px}.search{max-width:270px;padding:8px 10px}.table-wrap{overflow:auto;max-height:69vh;border:1px solid var(--line);border-radius:10px}table{width:100%;border-collapse:collapse;font-size:13px;white-space:nowrap}thead{position:sticky;top:0;z-index:1}th{background:#edf6f3;color:#52716a;text-align:left;font-size:11px;letter-spacing:.035em;padding:10px 11px;border-bottom:1px solid var(--line)}td{padding:7px 10px;border-bottom:1px solid #edf2ef;vertical-align:middle}tbody tr:last-child td{border-bottom:0}.num{text-align:right;font-variant-numeric:tabular-nums}.product{font-weight:700}.stock-input{width:105px;text-align:right;border:1px solid #e8dcae;background:var(--amber);border-radius:7px;padding:7px 8px;color:var(--ink)}.unit-input{width:84px;border:1px solid #e8dcae;background:var(--amber);border-radius:7px;padding:7px 8px;color:var(--ink)}.remaining{font-weight:800}.negative{color:var(--red)}.empty{padding:24px;text-align:center;color:var(--muted)}.delete{border:0;background:transparent;color:var(--red);font-weight:700;padding:5px 7px}.usage-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:10px}.usage-head h2{margin:0}.badge{display:inline-flex;padding:3px 8px;border-radius:99px;background:var(--mint);color:var(--green);font-size:11px;font-weight:800}.foot{margin-top:14px;color:var(--muted);font-size:12px}.toast{position:fixed;right:20px;bottom:20px;background:#163b38;color:white;padding:11px 15px;border-radius:9px;box-shadow:var(--shadow);opacity:0;transform:translateY(8px);transition:.2s;pointer-events:none}.toast.show{opacity:1;transform:translateY(0)}.file-hidden{display:none}
+    @media(max-width:850px){main{padding:16px 12px 40px}.top{align-items:flex-start;flex-direction:column}.layout{grid-template-columns:1fr}.table-wrap{max-height:58vh}.summary{gap:8px}.metric{padding:12px}.metric strong{font-size:23px}}
+    @media(max-width:520px){.summary{grid-template-columns:1fr 1fr}.metric:first-child{grid-column:span 2}.row2{grid-template-columns:1fr}.searchbar,.usage-head{align-items:stretch;flex-direction:column}.search{max-width:none}.tools{width:100%}.tools .btn{flex:1}.tabs .tab{flex:1;padding-inline:7px}}
+  </style>
+</head>
+<body>
+<main>
+  <header class="top">
+    <div class="brand"><div class="mark">S</div><div><div class="eyebrow">Depo yönetimi</div><h1>Stok Sayım Takibi</h1></div></div>
+    <div class="tools">
+      <button class="btn" id="backup">Yedek indir</button>
+      <button class="btn" id="restore">Yedek yükle</button>
+      <input class="file-hidden" type="file" id="fileInput" accept="application/json,.json">
+    </div>
+  </header>
+
+  <section class="summary" aria-label="Stok özeti">
+    <div class="metric"><span>Ürün çeşidi</span><strong id="metricProducts">57</strong></div>
+    <div class="metric"><span>Sayımı girilmiş ürün</span><strong id="metricCounted">0</strong></div>
+    <div class="metric"><span>Toplam kullanım kaydı</span><strong id="metricMovements">0</strong></div>
+  </section>
+
+  <nav class="tabs" aria-label="Uygulama bölümleri">
+    <button class="tab active" data-tab="stockPanel">Stok durumu</button>
+    <button class="tab" data-tab="usagePanel">Kullanım kaydı</button>
+  </nav>
+
+  <section class="panel active" id="stockPanel">
+    <div class="card">
+      <div class="searchbar"><div><h2>Ürün stokları</h2><p class="sub">İlk sayım miktarı ve birimi girin. Her kullanım kaydı kalan stoktan otomatik düşer.</p></div><input class="search" id="stockSearch" type="search" placeholder="Ürün ara..."></div>
+      <div class="table-wrap"><table><thead><tr><th>No.</th><th>Ürün adı</th><th class="num">İlk sayım</th><th>Birim</th><th class="num">Kullanılan</th><th class="num">Kalan</th></tr></thead><tbody id="stockRows"></tbody></table></div>
+      <p class="foot">Sarı alanları düzenleyerek sayım miktarını ve birimi güncelleyebilirsiniz. Örnek birim: kg, adet, kasa.</p>
+    </div>
+  </section>
+
+  <section class="panel" id="usagePanel">
+    <div class="layout">
+      <form class="card" id="usageForm">
+        <h2>Yeni kullanım kaydı</h2><p class="sub">Her ürün kullanımı için ayrı kayıt ekleyin.</p>
+        <div class="field"><label for="entryDate">Kayıt tarihi</label><input id="entryDate" type="date" required></div>
+        <div class="field"><label for="partyNo">PARTİ NUMARASI</label><input id="partyNo" type="text" placeholder="Örn. P-2026-001" required></div>
+        <div class="field"><label for="productName">ÜRÜNÜN ADI</label><select id="productName" required><option value="">Ürün seçin</option></select></div>
+        <div class="row2"><div class="field"><label for="serialNo">SERİ NO</label><input id="serialNo" type="text" placeholder="Seri numarası" required></div><div class="field"><label for="usedQty">Kullanılan miktar</label><input id="usedQty" type="number" min="0.01" step="any" placeholder="0" required></div></div>
+        <div class="row2"><div class="field"><label for="unit">Birim</label><input id="unit" type="text" placeholder="Önce stok birimini girin" readonly></div><div class="field"><label for="recordedBy">Kaydı giren</label><input id="recordedBy" type="text" placeholder="Ad soyad"></div></div>
+        <div class="field"><label for="note">Açıklama</label><input id="note" type="text" placeholder="İsteğe bağlı"></div>
+        <div class="form-actions"><button class="btn primary" type="submit">Kaydı ekle</button><span class="hint">Kayıt tarayıcıya kaydedilir.</span></div>
+      </form>
+      <div class="card">
+        <div class="usage-head"><div><h2>Kullanım geçmişi</h2><p class="sub">En yeni kayıtlar üstte görünür.</p></div><input class="search" id="logSearch" type="search" placeholder="Parti, ürün veya seri ara..."></div>
+        <div class="table-wrap"><table><thead><tr><th>Tarih</th><th>Parti no</th><th>Ürün</th><th>Seri no</th><th class="num">Miktar</th><th>Birim</th><th>Kaydı giren</th><th>Açıklama</th><th></th></tr></thead><tbody id="logRows"></tbody></table></div>
+      </div>
+    </div>
+  </section>
+  <p class="foot">Kayıtlar bu tarayıcıda saklanır. Başka cihazlarla paylaşmak için yedek indirip diğer cihazda yükleyin.</p>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+const PRODUCTS=['SİVRİ','ÇARLİ','DOLMA','KAPYA','MACAR','KIL','KILÇIK','ÜÇBURUN','K.ŞİLİ','k.şili küçük','Y.ŞİLİ','y.şili küçük','CİN 150g','CİN 200g','SÜS BİBER','JALEPONE','PATLICAN','PATLICAN 6KG','HIYAR 500g','KABAK 500g','KABAK 1kg','M.Kabak 4kg','KABAK 4kg','K.TURP','Y.TURP','B.TURP','S.TURP','S.HAVUÇ','YERELMASI','AYŞEKADIN','EJDER ŞALE','EJDER 12li','EJDER 10lu','EJDER KIRMIZI','EJDER BEYAZ','MISIR','MISIR DİZME','DOMATES SALKIM','DOMATES TEKLİ','LAHANA','GALİA','KIRKAĞAÇ','KIRKAĞAÇ KAFES','BALKABAK KAFES','MUŞMULA','SANTAMARİA','DEVECİ','AYVA ŞALE','NAR ŞALE','AYVA 7','AYVA 9','AYVA 10','AYVA 12','NAR 7','NAR 9','NAR 10','NAR 12'];
+const KEY='stok-sayim-takip-v1';
+let state=loadState();
+function loadState(){try{const v=JSON.parse(localStorage.getItem(KEY)||'{}');return{stock:v.stock&&typeof v.stock==='object'?v.stock:{},logs:Array.isArray(v.logs)?v.logs:[]}}catch{return{stock:{},logs:[]}}}
+function save(){localStorage.setItem(KEY,JSON.stringify(state));render()}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function fmt(v){return new Intl.NumberFormat('tr-TR',{maximumFractionDigits:3}).format(Number(v)||0)}
+function inventory(name){return state.stock[name]||{count:'',unit:''}}
+function used(name){return state.logs.reduce((n,l)=>n+(l.product===name?Number(l.qty)||0:0),0)}
+function remaining(name){const s=inventory(name);return s.count===''||s.count==null?null:Number(s.count)-used(name)}
+function localDate(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function showToast(s){const el=document.querySelector('#toast');el.textContent=s;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2200)}
+function render(){
+  const q=document.querySelector('#stockSearch').value.trim().toLocaleLowerCase('tr');
+  document.querySelector('#stockRows').innerHTML=PRODUCTS.map((name,i)=>({name,i,s:inventory(name)})).filter(x=>x.name.toLocaleLowerCase('tr').includes(q)).map(({name,i,s})=>{const u=used(name),r=remaining(name);return `<tr><td>${i+1}</td><td class="product">${esc(name)}</td><td class="num"><input class="stock-input" type="number" min="0" step="any" aria-label="${esc(name)} ilk sayım miktarı" data-count="${esc(name)}" value="${esc(s.count)}" placeholder="Giriniz"></td><td><input class="unit-input" type="text" aria-label="${esc(name)} birimi" data-unit="${esc(name)}" value="${esc(s.unit)}" placeholder="Birim"></td><td class="num">${fmt(u)}</td><td class="num remaining ${r!==null&&r<0?'negative':''}">${r===null?'—':fmt(r)}</td></tr>`}).join('');
+  document.querySelector('#metricCounted').textContent=PRODUCTS.filter(p=>inventory(p).count!==''&&inventory(p).count!=null).length;
+  document.querySelector('#metricMovements').textContent=state.logs.length;
+  const current=document.querySelector('#productName').value;
+  document.querySelector('#productName').innerHTML='<option value="">Ürün seçin</option>'+PRODUCTS.map(p=>`<option value="${esc(p)}">${esc(p)}</option>`).join('');
+  document.querySelector('#productName').value=current;
+  document.querySelector('#unit').value=current?inventory(current).unit:'';
+  const lq=document.querySelector('#logSearch').value.trim().toLocaleLowerCase('tr');
+  const logs=[...state.logs].reverse().filter(l=>[l.date,l.party,l.product,l.serial,l.by,l.note].join(' ').toLocaleLowerCase('tr').includes(lq));
+  document.querySelector('#logRows').innerHTML=logs.length?logs.map(l=>`<tr><td>${esc(l.date)}</td><td>${esc(l.party)}</td><td class="product">${esc(l.product)}</td><td>${esc(l.serial)}</td><td class="num">${fmt(l.qty)}</td><td>${esc(l.unit)}</td><td>${esc(l.by||'')}</td><td>${esc(l.note||'')}</td><td><button class="delete" data-delete="${esc(l.id)}" aria-label="Kaydı sil">Sil</button></td></tr>`).join(''):'<tr><td class="empty" colspan="9">Henüz kullanım kaydı yok.</td></tr>';
+}
+document.querySelector('#entryDate').value=localDate();
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab,.panel').forEach(e=>e.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.tab).classList.add('active')}));
+document.querySelector('#stockSearch').addEventListener('input',render);
+document.querySelector('#logSearch').addEventListener('input',render);
+document.querySelector('#stockRows').addEventListener('change',e=>{const n=e.target.dataset.count||e.target.dataset.unit;if(!n)return;const s=inventory(n);if(e.target.dataset.count)s.count=e.target.value===''?'':Number(e.target.value);else s.unit=e.target.value.trim();state.stock[n]=s;save()});
+document.querySelector('#productName').addEventListener('change',render);
+document.querySelector('#usageForm').addEventListener('submit',e=>{e.preventDefault();const product=document.querySelector('#productName').value,qty=Number(document.querySelector('#usedQty').value),s=inventory(product);if(!product||!Number.isFinite(qty)||qty<=0)return;if(!s.unit){showToast('Önce stok durumunda bu ürünün birimini girin.');return}const log={id:globalThis.crypto?.randomUUID?.()||String(Date.now())+Math.random(),date:document.querySelector('#entryDate').value,party:document.querySelector('#partyNo').value.trim(),product,serial:document.querySelector('#serialNo').value.trim(),qty,unit:s.unit,by:document.querySelector('#recordedBy').value.trim(),note:document.querySelector('#note').value.trim()};if(!log.party||!log.serial){showToast('Parti numarası ve seri no alanlarını doldurun.');return}state.logs.push(log);save();e.target.reset();document.querySelector('#entryDate').value=localDate();render();showToast('Kullanım kaydı eklendi. Stok güncellendi.')});
+document.querySelector('#logRows').addEventListener('click',e=>{const id=e.target.dataset.delete;if(!id)return;if(!confirm('Bu kullanım kaydı silinsin mi? Stok miktarı yeniden hesaplanır.'))return;state.logs=state.logs.filter(l=>l.id!==id);save();showToast('Kayıt silindi.')});
+document.querySelector('#backup').addEventListener('click',()=>{const blob=new Blob([JSON.stringify({version:1,exportedAt:new Date().toISOString(),state},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='stok-sayim-yedek.json';a.click();URL.revokeObjectURL(a.href)});
+document.querySelector('#restore').addEventListener('click',()=>document.querySelector('#fileInput').click());
+document.querySelector('#fileInput').addEventListener('change',async e=>{const file=e.target.files[0];if(!file)return;try{const payload=JSON.parse(await file.text()),next=payload.state||payload;if(!next.stock||!Array.isArray(next.logs))throw new Error('Yedek biçimi uygun değil');if(!confirm('Yedek, bu tarayıcıdaki mevcut kayıtların yerine yüklensin mi?'))return;state={stock:next.stock,logs:next.logs};save();showToast('Yedek yüklendi.')}catch{showToast('Yedek dosyası okunamadı.')}finally{e.target.value=''}});
+render();
+</script>
+</body>
+</html>
